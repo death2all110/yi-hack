@@ -62,13 +62,6 @@ get_config() {
     grep "^$1=" /home/hd1/test/config/yi-hack.cfg  | cut -d"=" -f2
 }
 
-boot_voice() {
-    voice_file=$1
-    if [ "$(get_config BOOT_VOICE)" = "yes" ]; then
-        /home/rmm "$voice_file" 1
-    fi
-}
-
 
 
 ### first we assume that this script is started from /home/init.sh and will replace it from the below lines (which are not commented in init.sh :
@@ -126,8 +119,8 @@ cd /home/3518
 himm 0x20050074 0x06802424
 
 ### Let ppl hear that we start
-boot_voice "/home/hd1/test/voice/welcome.g726" 1
-boot_voice "/home/hd1/test/voice/wait.g726" 1
+/home/rmm "/home/hd1/test/voice/welcome.g726" 1
+/home/rmm "/home/hd1/test/voice/wait.g726" 1
 
 ### start blinking blue led for configuration in progress
 #/home/led_ctl -boff -yon &
@@ -249,13 +242,13 @@ echo "Firmware letter is : '${FIRMWARE_LETTER}'" >> ${TMP_VERSION_FILE}
 cat ${TMP_VERSION_FILE} >> ${LOG_FILE}
 
 case ${FIRMWARE_LETTER} in
-    # 1.8.7.0
-    A)  # Tested :)
+    # 1.8.6.1
+    A)  # NOT TESTTED YET
         RTSP_VERSION='M'
         HTTP_VERSION='M'
         ;;
-    # 1.8.6.1
-    B)  # Tested :)
+
+    B) # Tested :)
         RTSP_VERSION='M'
         HTTP_VERSION='M'
         ;;
@@ -301,7 +294,7 @@ log "Debug mode = $(get_config DEBUG)"
 # first, configure wifi
 
 ### Let ppl hear that we start connect wifi
-boot_voice "/home/hd1/test/voice/connectting.g726" 1
+/home/rmm "/home/hd1/test/voice/connectting.g726" 1
 
 log "Check for wifi configuration file...*"
 log $(find /home -name "wpa_supplicant.conf")
@@ -313,8 +306,9 @@ log "Wifi configuration answer: $res"
 
 if [[ $(get_config DHCP) == "yes" ]] ; then
     log "Do network configuration (DHCP)"
+    #udhcpc --interface=ra0
     my_gateway=$(udhcpc --interface=ra0 | grep "Adding router" | awk '{print $3}' | tr -d '\n')
-    log "Default Router is $my_gateway"
+    log "Default Router is $my_gateway"	
     log "Done"
 else
     log "Do network configuration 1/2 (IP and Gateway)"
@@ -322,7 +316,7 @@ else
     #route add default gw 192.168.1.254
     ifconfig ra0 $(get_config IP) netmask $(get_config NETMASK)
     route add default gw $(get_config GATEWAY)
-    my_gateway=$(get_config GATEWAY)
+    my_gateway=$(get_config GATEWAY)									
     log "Done"
     ### configure DNS (google one)
     log "Do network configuration 2/2 (DNS)"
@@ -346,10 +340,10 @@ log "New datetime is $(date)"
 
 
 ### Check if reach gateway and notify
-#GATEWAY=$(ip route | awk '/default/ { print $3 }')
-ping -c1 -W2 $my_gateway > /dev/null
+GATEWAY=$(ip route | awk '/default/ { print $3 }')
+ping -c1 -W2 $GATEWAY > /dev/null
 if [ 0 -eq $? ]; then
-    boot_voice "/home/hd1/test/voice/wifi_connected.g726" 1
+    /home/rmm "/home/hd1/test/voice/wifi_connected.g726" 1
 fi
 
 ### set the root password
@@ -437,7 +431,6 @@ fi
 ### Start motion detection & reporting
 log "Starting motion notification processes"
 /home/hd1/test/check_motion.sh $(get_config MOTION_NOTIFICATION_URL) > /${LOG_DIR}/log_motion.txt 2>&1 &
-
 ### Start Cloud if enabled
 if [[ $(get_config CLOUD) == "yes" ]] ; then
   ./cloud &
@@ -474,7 +467,7 @@ if [ ! -r "$crontab_folder" ]; then
 fi
 if [ ! -r "/var/spool/cron/crontabs/root" ]; then
     cp /home/hd1/test/crontabs_root /var/spool/cron/crontabs/root
-fi
+fi												 
 # Start crond daemon
 /usr/sbin/crond -b
 
@@ -482,6 +475,7 @@ fi
 
 ### Check if reach gateway and notify
 #GATEWAY=$(ip route | awk '/default/ { print $3 }')
+#ping -c1 -W2 $GATEWAY > /dev/null
 ping -c1 -W2 $my_gateway > /dev/null
 if [ 0 -eq $? ]; then
     led $(get_config LED_WHEN_READY)
