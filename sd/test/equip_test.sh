@@ -511,18 +511,6 @@ mount -o bind /home/hd1/record/ /home/hd1/test/http/record/
 log "Storage status :"
 df -h >> ${LOG_FILE}
 
-### bg ftp_upload / housekeeper
-if [[ $(get_config FTP_UPLOAD) == "yes" ]] ; then   
-  log "start ftp_upload.sh in bg..."
-  /bin/sh /home/hd1/test/scripts/ftp_upload/ftp_upload.sh &
-fi
-
-if [[ $(get_config HOUSEKEEPER) == "yes" ]] ; then
-  log "start housekeeper.sh in bg..."
-  /bin/sh /home/hd1/test/scripts/housekeeper/housekeeper.sh &
-fi
-
-
 ### to make sure log are written...
 
 sync
