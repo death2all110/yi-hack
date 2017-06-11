@@ -64,13 +64,11 @@ DEBUG=no
 # - FTP username
 # - FTP password
 # - Folder in home folder of user on FTP server.
-#   ftp upload in background? values : yes|no
 FTP_HOST=192.168.1.1
 FTP_PORT=21
 FTP_USER=ftp_username
 FTP_PASS=ftp_password
 FTP_DIR=camera1
-FTP_UPLOAD=no
 
 ### Gateway offline duaration
 # If you schedule your router to offline (during midnight for example).
@@ -87,5 +85,4 @@ GW_OFF_END=
 # - RECORD_KEEP_DAYS: Number days that recorded videos are kept. Older ones are deleted.
 #   housekeeper in background? values : yes|no
 RETRY_TO_ALERT=10
-RECORD_KEEP_DAYS=7
-HOUSEKEEPER=no
+RECORD_KEEP_DAYS=45
