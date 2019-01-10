@@ -1,7 +1,5 @@
-===============
 
 Yi-hack project
-
 ===============
 
 Forked from fritz-smh/yi-hack.
@@ -231,5 +229,7 @@ use this command to return ^M every end of line
 #dos2unix /home/hd1/test/scripts/housekeeper/housekeeper.sh
 ````
 
-See #34
+See ([#34][i34])
+[i34]: https://github.com/death2all110/yi-hack/issues/34
+
 Thanks @hyptechdev2015 for the fix!
