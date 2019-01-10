@@ -418,8 +418,10 @@ cd /home
 
 ### Launch record event
 cd /home
-./record_event &
-./mp4record 60 &
+if [[ $(get_config RECORD) == "yes" ]] ; then
+  ./record_event &
+  ./mp4record 60 &
+fi
 
 ### cURL stuff.
 # check_motion.sh requires curl.
@@ -435,8 +437,10 @@ fi
 
 
 ### Start motion detection & reporting
-log "Starting motion notification processes"
-/home/hd1/test/check_motion.sh $(get_config MOTION_NOTIFICATION_URL) > /${LOG_DIR}/log_motion.txt 2>&1 &
+if [[ $(get_config NOTIFY) == "yes" ]] ; then
+  log "Starting motion notification processes"
+  /home/hd1/test/check_motion.sh $(get_config MOTION_NOTIFICATION_URL) > /${LOG_DIR}/log_motion.txt 2>&1 &
+fi
 
 ### Start Cloud if enabled
 if [[ $(get_config CLOUD) == "yes" ]] ; then
@@ -516,6 +520,12 @@ mount -o bind /home/hd1/record/ /home/hd1/test/http/record/
 ### List storage status
 log "Storage status :"
 df -h >> ${LOG_FILE}
+
+### Checks to ensure HD1 is mounted R/W and attempts to fix if not.
+### We will want this by default, so no config entries made.
+/home/hd1/test/services/rw_watchdog.sh start >> /home/hd1/test/log.txt &
+
+sleep 5
 
 ### to make sure log are written...
 
