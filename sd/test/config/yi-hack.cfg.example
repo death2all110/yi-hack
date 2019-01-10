@@ -15,6 +15,9 @@ NAMESERVER=192.168.1.254
 # Values : URL to POST notification to, or leave empty to disable
 MOTION_NOTIFICATION_URL=
 
+### Enable/Disable Motion Notifications mentioned above.
+NOTIFY=no
+
 ### Led color after full boot
 # The sequence will be :
 # - orange : startup
@@ -47,6 +50,9 @@ NTP_SERVER=0.uk.pool.ntp.org
 # Values : yes|no
 BOOT_VOICE=yes
 
+### Enable/Disable recording feature and POST a JSON status of motion detection to a specified URL.
+### MOTION_NOTIFICATION_URL and NOTIFY must be configured above for notifications.
+RECORD=yes
 
 ### Enable Cloud Features
 # No disables cloud features (Yi Home App) and cameras are accessible over local network only.
