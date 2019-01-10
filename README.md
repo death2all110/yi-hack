@@ -1,5 +1,7 @@
 ===============
+
 Yi-hack project
+
 ===============
 
 Forked from fritz-smh/yi-hack.
@@ -98,7 +100,7 @@ How can I know which is the version of a firmware 'home' file ?
 
 Just do : **strings home  | grep version**. Example :
 
-    $ strings home  | grep 1.8.5
+    $ strings home  | grep version
     version=1.8.5.1M_201512011815
 
 
@@ -211,3 +213,23 @@ check_motion.sh
 Script that runs from equip_test.sh and tell us if a new video was created in the last minute (a video file is created in case of motion detection).
 
 If a file is found, it adds the name of the file to the section GET /motion on the http server.
+
+Removing ^M/CTRL+M characters from ftp_upload.sh and housekeeper.sh
+-------------------------------------------------------------------
+
+One might experience ^M return line while transfer file from dos to unix
+
+use this command to return ^M every end of line
+
+**From Telnet:**
+
+```
+#dos2unix /home/hd1/test/scripts/ftp_upload/common_lib.sh
+
+#dos2unix /home/hd1/test/scripts/ftp_upload/ftp_upload.sh
+
+#dos2unix /home/hd1/test/scripts/housekeeper/housekeeper.sh
+````
+
+See #34
+Thanks @hyptechdev2015 for the fix!
