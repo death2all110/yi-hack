@@ -392,11 +392,13 @@ mkdir /home/hd1/test/http/record/
 touch /home/hd1/test/http/motion
 
 # start the server
-log "Start http server : server${HTTP_VERSION}..."
-if [[ $(get_config DEBUG) == "yes" ]] ; then
+if [[ $(get_config HTTP) == "yes" ]] ; then
+  log "Start http server : server${HTTP_VERSION}..."
+  if [[ $(get_config DEBUG) == "yes" ]] ; then
     ./server${HTTP_VERSION} 80  > /${LOG_DIR}/log_http.txt 2>&1 &
-else
+  else
     ./server${HTTP_VERSION} 80 &
+  fi
 fi
 sleep 1
 log "Check for http server process : "
@@ -497,11 +499,13 @@ fi
 
 ### Rtsp server
 cd /home/hd1/test/
-log "Start rtsp server : rtspsvr${RTSP_VERSION}..."
-if [[ $(get_config DEBUG) == "yes" ]] ; then
+if [[ $(get_config RTSP) == "yes" ]] ; then
+  log "Start rtsp server : rtspsvr${RTSP_VERSION}..."
+  if [[ $(get_config DEBUG) == "yes" ]] ; then
     ./rtspsvr${RTSP_VERSION} > /${LOG_DIR}/log_rtsp.txt 2>&1 &
-else
+  else
     ./rtspsvr${RTSP_VERSION} &
+  fi
 fi
 sleep 1
 log "Check for rtsp process : "
@@ -509,6 +513,11 @@ ps | grep rtspsvr | grep -v grep >> ${LOG_FILE}
 
 sleep 5
 
+### Interactive page if HTTP is enabled.
+if [[ $(get_config HTTP) =="yes" ]]; then
+  cd /tmp/hd1/test/services/interactive
+  ./interactive.sh
+fi
 
 ### List the processes after startup
 log "Processes after startup :"

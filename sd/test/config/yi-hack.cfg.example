@@ -64,6 +64,14 @@ CLOUD=yes
 # Values : yes|no
 DEBUG=no
 
+### HTTP
+# Enable/Disable HTTP server
+HTTP=yes
+
+### RTSP
+# Enable/Disable RTSP server
+RTSP=yes
+
 ### FTP server for uploading recorded files
 # - IP address of FTP server
 # - Port, keep it default if you didn't have special FTP server port
