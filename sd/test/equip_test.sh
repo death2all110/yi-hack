@@ -517,6 +517,12 @@ mount -o bind /home/hd1/record/ /home/hd1/test/http/record/
 log "Storage status :"
 df -h >> ${LOG_FILE}
 
+### Checks to ensure HD1 is mounted R/W and attempts to fix if not.
+### We will want this by default, so no config entries made.
+/home/hd1/test/services/rw_watchdog.sh start >> /home/hd1/test/log.txt &
+
+sleep 5
+
 ### to make sure log are written...
 
 sync
