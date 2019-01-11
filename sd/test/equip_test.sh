@@ -515,7 +515,7 @@ sleep 5
 
 ### Interactive page if HTTP is enabled.
 if [[ $(get_config HTTP) =="yes" ]]; then
-  cd /tmp/hd1/test/services/interactive
+  cd /tmp/hd1/test/http/interactive
   ./interactive.sh
 fi
 

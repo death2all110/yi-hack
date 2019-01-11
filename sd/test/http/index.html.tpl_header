@@ -5,7 +5,7 @@
 </head>
 <body>
   <h1>Yi HTTP Server</h1>
-  <p>This Yi is powered by a custom firmware. See <a href="https://github.com/fritz-smh/yi-hack">https://github.com/fritz-smh/yi-hack</a> for more informations</a>.</p>
+  <p>This Yi is powered by a custom firmware. See <a href="https://github.com/death2all110/yi-hack">https://github.com/death2all110/yi-hack</a> for more informations</a>.</p>
   <h2>RTSP stream channels</h2>
   <p>This camera IP is <span id="ip"></span></p>
   <ul>
